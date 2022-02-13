@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		id="createReviewDialog"
+		title="{i18n>createReviewDialogTitle}">
+
+        <!-- Submit and Cancel Buttons -->
+        <buttons>
+            <Button text="{i18n>createReviewFormCreateButton}" press="createNewReviewFromDialog"/>
+            <Button text="{i18n>createReviewFormCancelButton}" press="closeNewReviewDialog"/>
+        </buttons>
+
+        <!-- Review creation form, with input values bound to NewReviewModel -->
+        <f:SimpleForm>
+            <Label text="{i18n>createReviewFormAssetName}"/>
+            <Input type="Text" value="{NewReviewModel>/AssetName}"/>
+            <Label text="{i18n>createReviewFormSuitabilityScore}"/>
+		    <Slider enableTickmarks="true" min="0" max="5" step="1" value="{NewReviewModel>/Suitability}"/>
+            <Label text="{i18n>createReviewFormSuitabilityComment}"/>
+            <TextArea value="{NewReviewModel>/SuitabilityComment}"/>
+            <Label text="{i18n>createReviewFormValueScore}"/>
+		    <Slider enableTickmarks="true" min="0" max="5" step="1" value="{NewReviewModel>/Value}"/>
+            <Label text="{i18n>createReviewFormValueComment}"/>
+            <TextArea value="{NewReviewModel>/ValueComment}"/>
+            <Label text="{i18n>createReviewFormDurabilityScore}"/>
+		    <Slider enableTickmarks="true" min="0" max="5" step="1" value="{NewReviewModel>/Durability}"/>
+            <Label text="{i18n>createReviewFormDurabilityComment}"/>
+            <TextArea value="{NewReviewModel>/DurabilityComment}"/>
+            <Label text="{i18n>createReviewFormLongevityScore}"/>
+		    <Slider enableTickmarks="true" min="0" max="5" step="1" value="{NewReviewModel>/Longevity}"/>
+            <Label text="{i18n>createReviewFormLongevityComment}"/>
+            <TextArea value="{NewReviewModel>/LongevityComment}"/>
+            <Label text="{i18n>createReviewFormSummaryComment}"/>
+            <TextArea value="{NewReviewModel>/SummaryComments}"/>
+        </f:SimpleForm>
+	</Dialog>
+</core:FragmentDefinition>

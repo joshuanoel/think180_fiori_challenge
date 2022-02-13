@@ -1,0 +1,260 @@
+<mvc:View
+    controllerName="T180.fiorichallenge.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:mc="sap.suite.ui.microchart">
+    <Shell id="shell">
+        <App id="app">
+            <pages>
+                <Page id="page" title="{i18n>pageTitle}">
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <!-- Example text binding from the Asset Review model -->
+                            <Text text="{AssetReviewModel>/CurrentDate}" id="exampleText" class="sapUiSmallMargin"/>
+
+                            <!-- Display amount of reviews in the Asset Review model reviews array -->
+                            <Text text="There are {= ${AssetReviewModel>/Reviews}.length} review(s)." class="sapUiSmallMargin"/>
+
+                            <IconTabBar>
+                                <items>
+
+                                    <!-- Table View Tab -->
+                                    <IconTabFilter text="{i18n>tableTab}">
+                                        <Table items="{AssetReviewModel>/Reviews}">
+                                            <columns>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableAssetNameColumn}"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableSuitabilityScoreColumn}"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableValueScoreColumn}"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableDurabilityScoreColumn}"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableLongevityScoreColumn}"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableSummaryCommentColumn}"/>
+                                                </Column>
+                                                <Column>
+                                                    <Text text="{i18n>reviewsTableSubmissionDetailsColumn}"/>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+
+                                                        <!-- Asset Name -->
+                                                        <Text text="{AssetReviewModel>AssetName}"/>
+
+                                                        <!-- Suitability Score and Comment -->
+                                                        <VBox>
+                                                            <ObjectNumber
+                                                                number="{AssetReviewModel>Suitability}"
+                                                                state="{
+                                                                    path: 'AssetReviewModel>Suitability',
+                                                                    formatter: '.formatter.reviewScoreToValueState'
+                                                                }"/>
+                                                            <Text text="{AssetReviewModel>SuitabilityComment}"
+                                                                visible="{= ${AssetReviewModel>SuitabilityComment} !== ''}"/>
+                                                        </VBox>
+
+                                                        <!-- Value Score and Comment -->
+                                                        <VBox>
+                                                            <ObjectNumber
+                                                                number="{AssetReviewModel>Value}"
+                                                                state="{
+                                                                    path: 'AssetReviewModel>Value',
+                                                                    formatter: '.formatter.reviewScoreToValueState'
+                                                                }"/>
+                                                            <Text text="{AssetReviewModel>ValueComment}"
+                                                                visible="{= ${AssetReviewModel>ValueComment} !== ''}"/>
+                                                        </VBox>
+
+                                                        <!-- Durability Score and Comment -->
+                                                        <VBox>
+                                                            <ObjectNumber
+                                                                number="{AssetReviewModel>Durability}"
+                                                                state="{
+                                                                    path: 'AssetReviewModel>Durability',
+                                                                    formatter: '.formatter.reviewScoreToValueState'
+                                                                }"/>
+                                                            <Text text="{AssetReviewModel>DurabilityComment}"
+                                                                visible="{= ${AssetReviewModel>DurabilityComment} !== ''}"/>
+                                                        </VBox>
+
+                                                        <!-- Longevity Score and Comment -->
+                                                        <VBox>
+                                                            <ObjectNumber
+                                                                number="{AssetReviewModel>Longevity}"
+                                                                state="{
+                                                                    path: 'AssetReviewModel>Longevity',
+                                                                    formatter: '.formatter.reviewScoreToValueState'
+                                                                }"/>
+                                                            <Text text="{AssetReviewModel>LongevityComment}"
+                                                                visible="{= ${AssetReviewModel>LongevityComment} !== ''}"/>
+                                                        </VBox>
+
+                                                        <!-- Summary Comment -->
+                                                        <Text text="{AssetReviewModel>SummaryComments}"/>
+
+                                                        <!-- Submission Date and User Name -->
+                                                        <VBox>
+                                                            <Text text="{AssetReviewModel>SubmittedBy}"/>
+                                                            <Text text="{
+                                                                path:'AssetReviewModel>SubmissionDate', 
+                                                                type:'sap.ui.model.type.Date', 
+                                                                formatOptions: { 
+                                                                    source : { 
+                                                                        pattern: 'yyyy-MM-ddTHH:mm:ss.SSS Z' 
+                                                                    },
+                                                                    pattern: 'dd/MM/yy'
+                                                                }
+                                                            }"/>
+                                                        </VBox>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </IconTabFilter>
+
+                                    <!-- Bar Chart Tab -->
+                                    <IconTabFilter text="{i18n>barGraphTab}">  
+                                        <items>
+
+                                            <!-- Suitability Scores Bar Chart -->
+                                            <IconTabFilter text="{i18n>suitabilityGraphTab}">
+                                                <Text text="{i18n>barGraphSuitabilityTitle}" class="sapUiSmallMarginBottom"/>
+                                                <mc:InteractiveBarChart bars="{
+                                                        path: 'AssetReviewModel>/Reviews',
+                                                        sorter: {
+                                                            path: 'Suitability',
+                                                            descending: true
+                                                        }
+                                                    }"
+                                                    displayedBars="{= ${AssetReviewModel>/Reviews}.length }">
+                                                    <mc:bars>
+                                                        <mc:InteractiveBarChartBar label="{AssetReviewModel>AssetName}"
+                                                            value="{AssetReviewModel>Suitability}" 
+                                                            color="{
+                                                                path: 'AssetReviewModel>Suitability',
+                                                                formatter: '.formatter.reviewScoreToValueColor'
+                                                            }"/>
+                                                    </mc:bars>
+                                                </mc:InteractiveBarChart>
+                                            </IconTabFilter>
+
+                                            <!-- Value Scores Bar Chart -->
+                                            <IconTabFilter text="{i18n>valueGraphTab}">
+                                                <Text text="{i18n>barGraphValueTitle}" class="sapUiSmallMarginBottom"/>
+                                                <mc:InteractiveBarChart bars="{
+                                                        path: 'AssetReviewModel>/Reviews',
+                                                        sorter: {
+                                                            path: 'Value',
+                                                            descending: true
+                                                        }
+                                                    }"
+                                                    displayedBars="{= ${AssetReviewModel>/Reviews}.length}">
+                                                    <mc:bars>
+                                                        <mc:InteractiveBarChartBar label="{AssetReviewModel>AssetName}"
+                                                            value="{AssetReviewModel>Value}" 
+                                                            color="{
+                                                                path: 'AssetReviewModel>Value',
+                                                                formatter: '.formatter.reviewScoreToValueColor'
+                                                            }"/>
+                                                    </mc:bars>
+                                                </mc:InteractiveBarChart>
+                                            </IconTabFilter>
+
+                                            <!-- Durability Scores Bar Chart -->
+                                            <IconTabFilter text="{i18n>durabilityGraphTab}">
+                                                <Text text="{i18n>barGraphDurabilityTitle}" class="sapUiSmallMarginBottom"/>
+                                                <mc:InteractiveBarChart bars="{
+                                                        path: 'AssetReviewModel>/Reviews',
+                                                        sorter: {
+                                                            path: 'Durability',
+                                                            descending: true
+                                                        }
+                                                    }"
+                                                    displayedBars="{= ${AssetReviewModel>/Reviews}.length}">
+                                                    <mc:bars>
+                                                        <mc:InteractiveBarChartBar label="{AssetReviewModel>AssetName}"
+                                                            value="{AssetReviewModel>Durability}" 
+                                                            color="{
+                                                                path: 'AssetReviewModel>Durability',
+                                                                formatter: '.formatter.reviewScoreToValueColor'
+                                                            }"/>
+                                                    </mc:bars>
+                                                </mc:InteractiveBarChart>
+                                            </IconTabFilter>
+
+                                            <!-- Longevity Scores Bar Chart -->
+                                            <IconTabFilter text="{i18n>longevityGraphTab}">
+                                                <Text text="{i18n>barGraphLongevityTitle}" class="sapUiSmallMarginBottom"/>
+                                                <mc:InteractiveBarChart bars="{
+                                                        path: 'AssetReviewModel>/Reviews',
+                                                        sorter: {
+                                                            path: 'Longevity',
+                                                            descending: true
+                                                        }
+                                                    }"
+                                                    displayedBars="{= ${AssetReviewModel>/Reviews}.length}">
+                                                    <mc:bars>
+                                                        <mc:InteractiveBarChartBar label="{AssetReviewModel>AssetName}"
+                                                            value="{AssetReviewModel>Longevity}" 
+                                                            color="{
+                                                                path: 'AssetReviewModel>Longevity',
+                                                                formatter: '.formatter.reviewScoreToValueColor'
+                                                            }"/>
+                                                    </mc:bars>
+                                                </mc:InteractiveBarChart>
+                                            </IconTabFilter>
+
+                                            <!-- Average Scores Bar Chart -->
+                                            <IconTabFilter text="{i18n>averageScoreGraphTab}">
+                                                <Text text="{i18n>barGraphAverageScoreTitle}" class="sapUiSmallMarginBottom"/>
+                                                <mc:InteractiveBarChart bars="{
+                                                        path: 'AssetReviewModel>/Reviews',
+                                                        sorter: {
+                                                            path: 'AverageScore',
+                                                            descending: true
+                                                        }
+                                                    }"
+                                                    displayedBars="{= ${AssetReviewModel>/Reviews}.length }">
+                                                    <mc:bars>
+                                                        <mc:InteractiveBarChartBar label="{AssetReviewModel>AssetName}"
+                                                            value="{AssetReviewModel>AverageScore}" 
+                                                            color="{
+                                                                path: 'AssetReviewModel>AverageScore',
+                                                                formatter: '.formatter.reviewScoreToValueColor'
+                                                            }"/>
+                                                    </mc:bars>
+                                                </mc:InteractiveBarChart>
+                                            </IconTabFilter>
+
+                                        </items>
+                                    </IconTabFilter>
+                                </items>
+                            </IconTabBar>
+                        </VBox>
+                    </content>
+                    <footer>
+
+                        <!-- Footer Toolbar with New Review Button -->
+                        <OverflowToolbar id="footerToolbar">
+                            <ToolbarSpacer/>
+                            <Button text="{i18n>createNewReviewButton}" 
+                                press="openNewReviewDialog"
+                                icon="sap-icon://action"/>
+                        </OverflowToolbar>
+                    </footer>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>
